@@ -1,0 +1,102 @@
+﻿@model IEnumerable<CFLibrary.Models.Book>
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="w-25 float-left">Index</h1>
+@if (Context.Session.GetInt32("UserId") != null)
+{
+    <div class="w-25 float-right">
+        Welcome @Context.Session.GetString("Username")
+    </div>
+}
+
+
+<p>
+    <a asp-action="Create" class="float-right">Create New</a>
+</p>
+
+<div class="container d-flex flex-wrap">
+    @foreach (var book in Model)
+    {
+        <div class="card w-25">
+            <div class="card-header">
+                <div class="text-center">
+                    <h3>
+                        @Html.DisplayFor(modelItem => book.Title)
+                    </h3>
+
+                </div>
+                <div class="text-center">
+                    By: @Html.DisplayFor(modelItem => book.Author.FirstName) @Html.DisplayFor(modelItem => book.Author.LastName)
+                </div>
+
+            </div>
+            <div class="card-body">
+                <div class="card-img">
+                    <img class="w-100" src="@Html.DisplayFor(modelItem => book.ImgUrl)" />
+                </div>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-outline-success" asp-action="Details" asp-route-id="@book.BookId">View</a>
+            </div>
+
+
+
+        </div>
+    }
+
+
+
+
+
+
+</div>
+
+
+<!--
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img src="@Html.DisplayFor(modelItem => item.ImgUrl)" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+    -->
