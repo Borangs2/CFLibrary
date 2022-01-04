@@ -22,8 +22,5 @@ namespace CFLibrary.Models
         public string Password { get; set; }
 
 
-
-
-
     }
 }

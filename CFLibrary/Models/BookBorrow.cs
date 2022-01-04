@@ -14,15 +14,18 @@ namespace CFLibrary.Models
         public int UserId { get; set; }
         public virtual User User { get; set; }
 
-        [ForeignKey("BookId")]
+        [ForeignKey("Book")]
         public int BookId { get; set; }
         public virtual Book Book { get; set; }
 
-
         public DateTime ReturnDate { get; set; }
 
-
-
+        public BookBorrow(int userId, int bookId)
+        {
+            UserId = userId;
+            BookId = bookId;
+            ReturnDate = new DateTime(ReturnDate.Year, ReturnDate.Month + 1, ReturnDate.Day);
+        }
 
     }
 }

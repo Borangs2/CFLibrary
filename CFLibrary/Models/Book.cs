@@ -31,6 +31,5 @@ namespace CFLibrary.Models
         //Null if not specified
         [Column(TypeName = "nvarchar(50)")]
         public string Edition { get; set; }
-
     }
 }
