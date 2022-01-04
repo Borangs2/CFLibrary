@@ -11,11 +11,10 @@ namespace CFLibrary.Models
         public LibraryContext(DbContextOptions<LibraryContext> options) : base(options){ }
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BookBorrow>()
                 .HasKey(c => new { c.UserId, c.BookId });
-
 
             modelBuilder.Entity<LibraryBooks>()
                 .HasKey(c => new { c.LibraryId, c.BookId });

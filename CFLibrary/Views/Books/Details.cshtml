@@ -38,7 +38,7 @@
     <div class="d-flex justify-content-between w-50">
         <a class="btn btn-outline-primary" asp-action="Index">Back to List</a>
         <form asp-action="Borrow" asp-controller="Books">
-            <input type="hidden" value="Html.DisplayFor(@Html.DisplayFor(model => model.BookId)" asp-for="BookId" />
+            <input type="hidden" value="@TempData["BookId"]" asp-for="BookId" />
             <button class="btn btn-outline-success" type="submit">Borrow book</button>
         </form>
     </div>

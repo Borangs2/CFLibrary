@@ -4,19 +4,37 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="d-flex justify-content-between">
+    <h1 class="w-25 float-left">Index</h1>
 
-<h1 class="w-25 float-left">Index</h1>
-@if (Context.Session.GetInt32("UserId") != null)
-{
-    <div class="w-25 float-right">
-        Welcome @Context.Session.GetString("Username")
-    </div>
-}
+    <form asp-action="Search" asp-controller="Books">
+        <input class="rounded" type="search" name="searchTerm" placeholder="Search..."/>
+    </form>
+
+    <form asp-action="Sort" asp-controller="Books">
+        <label>Sort: </label>
+        <select name="sortTerm">
+            <option value="">None</option>
+            @foreach (var category in Model)
+            {
+                <option value="@Html.DisplayFor(modelItem => category.Category.CategoryName)">@Html.DisplayFor(modelItem => category.Category.CategoryName)</option>
+            }
+        </select>
+    </form>
+
+    @if (Context.Session.GetInt32("UserId") != null)
+    {
+        <div class="w-25">
+            Welcome @Context.Session.GetString("Username")
+        </div>
+    }
 
 
-<p>
-    <a asp-action="Create" class="float-right">Create New</a>
-</p>
+    <p>
+        <a asp-action="Create" class="float-right">Create New</a>
+    </p>
+</div>
+
 
 <div class="container d-flex flex-wrap">
     @foreach (var book in Model)
@@ -54,49 +72,3 @@
 
 
 </div>
-
-
-<!--
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <img src="@Html.DisplayFor(modelItem => item.ImgUrl)" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-    -->

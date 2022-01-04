@@ -32,7 +32,7 @@ namespace CFLibrary.Controllers
         {
             if(HttpContext.Session.GetInt32("UserId") != null)
             {
-                _context.BookBorrow.Add(new BookBorrow((int)HttpContext.Session.GetInt32("UserId"), 0));
+                _context.BookBorrow.Add(new BookBorrow((int)HttpContext.Session.GetInt32("UserId"), BookId));
                 TempData["Borrow"] = "Success";
                 _context.SaveChanges();
             }
@@ -41,6 +41,20 @@ namespace CFLibrary.Controllers
                 TempData["Borrow"] = "Error";
             }
             return Index();
+        }
+
+        [HttpPost]
+        public IActionResult Search(string searchTerm)
+        {
+            var searchResults = from p in _context.Book where p.Title.Contains(searchTerm) select p;
+            return View("Index", searchResults);
+        }
+
+        [HttpPost]
+        public IActionResult Sort(string sortTerm)
+        {
+            var sortResults = from p in _context.Book where p.Category.CategoryName.Contains(sortTerm) select p;
+            return View("Index", sortResults);
         }
 
         // GET: Books/Details/5
@@ -60,6 +74,8 @@ namespace CFLibrary.Controllers
                 return NotFound();
             }
 
+            TempData["BookId"] = book.BookId;
+
             return View(book);
         }
 
@@ -76,7 +92,7 @@ namespace CFLibrary.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,Title,AuthorId,CategoryId,ImgUrl")] Book book)
+        public async Task<IActionResult> Create([Bind("BookId,Title,AuthorId,CategoryId,ImgUrl,Price,Edition")] Book book)
         {
             if (ModelState.IsValid)
             {
