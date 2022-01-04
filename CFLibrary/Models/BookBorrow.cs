@@ -27,7 +27,9 @@ namespace CFLibrary.Models
         {
             UserId = userId;
             BookId = bookId;
-            ReturnDate = new DateTime(ReturnDate.Year, ReturnDate.Month + 1, ReturnDate.Day);
+            DateTime Date = DateTime.Now;
+            
+            ReturnDate = new DateTime(Date.Year, Date.Month + 1, Date.Day);
         }
 
     }

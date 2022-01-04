@@ -13,7 +13,7 @@
 
     <form asp-action="Sort" asp-controller="Books">
         <label>Sort: </label>
-        <select name="sortTerm">
+        <select name="sortTerm" onchange="this.form.submit()">
             <option value="">None</option>
             @foreach (var category in Model)
             {
