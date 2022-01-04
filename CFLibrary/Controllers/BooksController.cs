@@ -46,14 +46,21 @@ namespace CFLibrary.Controllers
         [HttpPost]
         public IActionResult Search(string searchTerm)
         {
-            var searchResults = from p in _context.Book where p.Title.Contains(searchTerm) select p;
+            var searchResults = from p in _context.Book.Include(b => b.Author) where p.Title.Contains(searchTerm) select p;
             return View("Index", searchResults);
         }
 
         [HttpPost]
-        public IActionResult Sort(string sortTerm)
+        public IActionResult SortCategory(string sortTerm)
         {
-            var sortResults = from p in _context.Book where p.Category.CategoryName.Contains(sortTerm) select p;
+                var sortResults = from p in _context.Book.Include(b => b.Author).Include(b => b.Category) where p.Category.CategoryName.Contains(sortTerm) select p;
+                return View("Index", sortResults);
+        }
+
+        [HttpPost]
+        public IActionResult SortAuthor(int sortTerm)
+        {
+            var sortResults = from p in _context.Book.Include(b => b.Author).Include(b => b.Category) where p.Author.AuthorId == sortTerm select p;
             return View("Index", sortResults);
         }
 

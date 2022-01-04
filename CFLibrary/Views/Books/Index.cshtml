@@ -8,19 +8,41 @@
     <h1 class="w-25 float-left">Index</h1>
 
     <form asp-action="Search" asp-controller="Books">
-        <input class="rounded" type="search" name="searchTerm" placeholder="Search..."/>
+        <input class="rounded" type="search" name="searchTerm" placeholder="Search..." />
     </form>
 
-    <form asp-action="Sort" asp-controller="Books">
-        <label>Sort: </label>
-        <select name="sortTerm" onchange="this.form.submit()">
-            <option value="">None</option>
-            @foreach (var category in Model)
-            {
-                <option value="@Html.DisplayFor(modelItem => category.Category.CategoryName)">@Html.DisplayFor(modelItem => category.Category.CategoryName)</option>
-            }
-        </select>
-    </form>
+    <div class="d-flex">
+        <form asp-action="SortCategory" asp-controller="Books">
+            <label>Category: </label>
+            <select name="sortTerm" onchange="this.form.submit()" class="h-50">
+                <option value="">None</option>
+                <option value="Fantasi">Fantasi</option>
+                <option value="Action">Action</option>
+                <option value="Romans">Romans</option>
+                <option value="Fakta">Fakta</option>
+                <option value="Drama">Drama</option>
+                <option value="Sport">Sport</option>
+            </select>
+        </form>
+
+        <a class="btn btn-outline-info h-50 p-0 pl-1 pr-1" asp-action="Index">Reset</a>
+    </div>
+    <div class="d-flex">
+        <form asp-action="SortAuthor" asp-controller="Books">
+            <label>Authors: </label>
+            <select name="sortTerm" onchange="this.form.submit()" class="h-50">
+                <option value="">None</option>
+                <option value="1">Anders Sten</option>
+                <option value="2">Kalle Knut</option>
+                <option value="3">Lisa Andersson</option>
+                <option value="4">Peter Snäll</option>
+                <option value="5">Emma Larsson</option>
+            </select>
+        </form>
+
+        <a class="btn btn-outline-info h-50 p-0 pl-1 pr-1" asp-action="Index">Reset</a>
+    </div>
+
 
     @if (Context.Session.GetInt32("UserId") != null)
     {

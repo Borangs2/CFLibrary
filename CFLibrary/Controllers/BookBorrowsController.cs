@@ -21,7 +21,7 @@ namespace CFLibrary.Controllers
         // GET: BookBorrows
         public async Task<IActionResult> Index()
         {
-            var libraryContext = _context.BookBorrow.Include(b => b.Book).Include(b => b.User);
+            var libraryContext = _context.BookBorrow.Include(b => b.Book).Include(b => b.User).Include(b => b.Book.Author);
             return View(await libraryContext.ToListAsync());
         }
 
