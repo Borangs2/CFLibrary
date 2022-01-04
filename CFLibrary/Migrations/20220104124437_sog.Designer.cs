@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CFLibrary.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20220104124003_add-migration bookborrow_fix")]
-    partial class addmigrationbookborrow_fix
+    [Migration("20220104124437_sog")]
+    partial class sog
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

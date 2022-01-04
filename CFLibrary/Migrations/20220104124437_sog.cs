@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CFLibrary.Migrations
 {
-    public partial class fix : Migration
+    public partial class sog : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "BookBorrow");
+    //        migrationBuilder.DropTable(
+    //name: "BookBorrow");
 
             migrationBuilder.DropTable(
                 name: "LibraryBooks");
