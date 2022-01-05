@@ -32,13 +32,21 @@ namespace CFLibrary.Controllers
         {
             if(HttpContext.Session.GetInt32("UserId") != null)
             {
-                _context.BookBorrow.Add(new BookBorrow((int)HttpContext.Session.GetInt32("UserId"), BookId));
-                TempData["Borrow"] = "Success";
-                _context.SaveChanges();
+                try
+                {
+                    _context.BookBorrow.Add(new BookBorrow((int)HttpContext.Session.GetInt32("UserId"), BookId));
+                    TempData["Borrow"] = "Success";
+                    _context.SaveChanges();
+                }
+                catch
+                {
+                    TempData["Borrow"] = "DuplicateBorrowError";
+                }
+
             }
             else
             {
-                TempData["Borrow"] = "Error";
+                TempData["Borrow"] = "LoginError";
             }
             return Index();
         }

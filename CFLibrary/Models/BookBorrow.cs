@@ -10,9 +10,6 @@ namespace CFLibrary.Models
 {
     public class BookBorrow
     {
-        //[Key]
-        //public int BorrowId { get; set; }
-
         [ForeignKey("User")]
         public int UserId { get; set; }
         public virtual User User { get; set; }

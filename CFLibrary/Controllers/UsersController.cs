@@ -19,6 +19,10 @@ namespace CFLibrary.Controllers
             _context = context;
         }
 
+        
+
+
+
         // GET: Users
         public async Task<IActionResult> Index()
         {
@@ -51,7 +55,12 @@ namespace CFLibrary.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("UserId");
+            TempData["Logout"] = "Success";
+            return View("Index", _context.User.ToList());
+        }
 
 
         // GET: Users/Create

@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 <div class="d-flex justify-content-between">
-    <h1 class="w-25 float-left">Index</h1>
+    <h1 class="w-auto float-left">Index</h1>
 
     <form asp-action="Search" asp-controller="Books">
         <input class="rounded" type="search" name="searchTerm" placeholder="Search..." />
@@ -46,22 +46,53 @@
 
     @if (Context.Session.GetInt32("UserId") != null)
     {
-        <div class="w-25">
+        <div class="w-auto">
             Welcome @Context.Session.GetString("Username")
         </div>
     }
 
 
     <p>
-        <a asp-action="Create" class="float-right">Create New</a>
+        @if (Context.Session.GetInt32("UserId") != null)
+        {
+            <a asp-action="Create" class="float-right">Create New</a>
+
+        }
     </p>
 </div>
+
+@if (TempData["Borrow"] != null)
+{
+    switch (TempData["Borrow"])
+    {
+        case "Success":
+            <div class="alert-success">
+                <h5 class="text-center p-2">Book Borrowed</h5>
+            </div>
+            break;
+
+        case "LoginError":
+            <div class="alert-danger">
+                <h5 class="text-center p-2">Login to borrow books</h5>
+            </div>
+            break;
+
+        case "DuplicateBorrowError":
+            <div class="alert-danger">
+                <h5 class="text-center p-2">You have already borrowed this book</h5>
+            </div>
+            break;
+
+    }
+}
+
+
 
 
 <div class="container d-flex flex-wrap">
     @foreach (var book in Model)
     {
-        <div class="card w-25">
+        <div class="card w-25 m-1">
             <div class="card-header">
                 <div class="text-center">
                     <h3>
