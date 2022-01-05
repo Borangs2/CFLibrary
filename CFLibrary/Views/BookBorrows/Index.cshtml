@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<CFLibrary.Models.BookBorrow>
-
+@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Borrowed Books";
 }
@@ -29,9 +29,10 @@
         <tbody>
             @foreach (var book in Model)
             {
+
                 <tr class="book">
                     <td class="w-25">
-                        <img src="@book.Book.ImgUrl"  class="w-50"/>
+                        <img src="@book.Book.ImgUrl" class="w-50" />
                     </td>
                     <td>
                         <h2>@book.Book.Title</h2>
@@ -43,6 +44,8 @@
                         <h4>@Html.DisplayFor(modelItem => book.ReturnDate)</h4>
                     </td>
                 </tr>
+
+
             }
         </tbody>
     </table>
@@ -55,11 +58,11 @@
 
 
 <style>
-    .book{
+    .book {
         border-top: 4px solid #eeeeee;
     }
 
-    tr{
+    tr {
         background-color: lightgray;
     }
 </style>

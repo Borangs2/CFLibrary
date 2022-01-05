@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CFLibrary.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CFLibrary.Controllers
 {
@@ -21,8 +22,18 @@ namespace CFLibrary.Controllers
         // GET: BookBorrows
         public async Task<IActionResult> Index()
         {
-            var libraryContext = _context.BookBorrow.Include(b => b.Book).Include(b => b.User).Include(b => b.Book.Author);
-            return View(await libraryContext.ToListAsync());
+            //var libraryContext = _context.BookBorrow.Include(b => b.Book).Include(b => b.User).Include(b => b.Book.Author);
+
+
+            var borrowedBooks = from b in _context.BookBorrow
+                                .Include(b => b.Book)
+                                .Include(b => b.User)
+                                .Include(b => b.Book.Author)
+                                where b.UserId.Equals(HttpContext.Session.GetInt32("UserId"))
+                                select b;
+
+            //return View(await libraryContext.ToListAsync());
+            return View(borrowedBooks);
         }
 
         // GET: BookBorrows/Details/5
