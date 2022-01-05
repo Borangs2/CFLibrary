@@ -20,7 +20,9 @@ namespace CFLibrary.Models
         [Required(ErrorMessage = "Password required")]
         [Column(TypeName = "nvarchar(40)")]
         public string Password { get; set; }
-
+        [Column(TypeName = "bit")]
+        
+        public bool IsAdmin { get; set; }
 
     }
 }

@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,30 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CFLibrary.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace CFLibrary.Controllers
 {
-    public class UsersController : Controller
+    public class CategoriesController : Controller
     {
         private readonly LibraryContext _context;
 
-        public UsersController(LibraryContext context)
+        public CategoriesController(LibraryContext context)
         {
             _context = context;
         }
 
-        
-
-
-
-        // GET: Users
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.User.ToListAsync());
+            return View(await _context.Category.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,69 +32,39 @@ namespace CFLibrary.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
+            var category = await _context.Category
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(category);
         }
 
-
-        public IActionResult Login(int id)
-        {
-            if (HttpContext.Session.GetInt32("UserIsAdmin") != null)
-            {
-                HttpContext.Session.Remove("UserIsAdmin");
-            }
-
-            HttpContext.Session.SetInt32("UserId", id);
-            HttpContext.Session.SetString("Username", $"{_context.User.Find(id).FirstName} {_context.User.Find(id).LastName}");
-            var user = from u in _context.User where u.UserId.Equals(id) where u.IsAdmin.Equals(1) select u;
-            if(user != null)
-            {
-                HttpContext.Session.SetInt32("UserIsAdmin", 1);
-            }
-            return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Remove("UserId");
-            if (HttpContext.Session.GetInt32("UserIsAdmin") != null)
-            {
-                HttpContext.Session.Remove("UserIsAdmin");
-            }
-            TempData["Logout"] = "Success";
-            return View("Index", _context.User.ToList());
-        }
-
-
-        // GET: Users/Create
+        // GET: Categories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Password,IsAdmin")] User user)
+        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(category);
         }
 
-        // GET: Users/Edit/5
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -107,22 +72,22 @@ namespace CFLibrary.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var category = await _context.Category.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(category);
         }
 
-        // POST: Users/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,FirstName,LastName,Password")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName")] Category category)
         {
-            if (id != user.UserId)
+            if (id != category.CategoryId)
             {
                 return NotFound();
             }
@@ -131,12 +96,12 @@ namespace CFLibrary.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.UserId))
+                    if (!CategoryExists(category.CategoryId))
                     {
                         return NotFound();
                     }
@@ -147,10 +112,10 @@ namespace CFLibrary.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(category);
         }
 
-        // GET: Users/Delete/5
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -158,30 +123,30 @@ namespace CFLibrary.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
+            var category = await _context.Category
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(category);
         }
 
-        // POST: Users/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.User.FindAsync(id);
-            _context.User.Remove(user);
+            var category = await _context.Category.FindAsync(id);
+            _context.Category.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.User.Any(e => e.UserId == id);
+            return _context.Category.Any(e => e.CategoryId == id);
         }
     }
 }
